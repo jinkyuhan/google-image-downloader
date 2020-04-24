@@ -20,7 +20,7 @@ class Downloader:
     def __init__(self, driver):
         self.__driver = driver
     
-    def download(self, arguments):
+    def download(self, items):
 
         # https allow
         urllib3.disable_warnings(InsecureRequestWarning)
@@ -29,11 +29,13 @@ class Downloader:
         start_time = time.time()
 
         # count download_num
-        count = 0
-        for keyword in arguments['keywords']:
+        for item in items:
+            count = 0
+
             # Search Image
-            # keywords_in_url = '+'.join(arguments['keywords'])
-            URL = f'https://www.google.com/search?q={keyword}&source=lnms&tbm=isch'
+            # keywords_in_url = '+'.join(item['keywords'])
+            URL = f'https://www.google.com/search?q={item["keyword"]}&source=lnms&tbm=isch'
+            PATH = f'{item["download_context"]}/{item["path"]}/{item["keyword"]}'
 
             # Load Page
             print(f'Loading Pages. This may take a few moments...')
@@ -46,7 +48,7 @@ class Downloader:
 
             # download path open
             try:
-                pathlib.Path(f'{arguments["download_path"]}/{keyword}').mkdir(parents=True, exist_ok=True)
+                pathlib.Path(PATH).mkdir(parents=True, exist_ok=True)
             except Exception as e:
                 print(f"Can't access dir_path: {e}")
                 sys.exit()
@@ -71,24 +73,27 @@ class Downloader:
                     except Exception as e:
                         print(f'No found image sources.')
                         print(e)
+
+
             if urls:
                 for url in urls:
-                    if count >= arguments['limit']:
+                    if count >= item['limit']:
                         break;
                     try:
                         res = requests.get(url, verify=False, stream=True)
                         rawdata = res.raw.read()
-                        with open(os.path.join(arguments['download_path'], 'img_' + str(count) + '.jpg'), 'wb') as f:
-                            print(f'Downloading ...{keyword} - [{arguments["download_path"]}/img_{count}]')
+                        with open(os.path.join(PATH, 'img_' + str(count) + '.jpg'), 'wb') as f:
+                            print(f'Downloading ...{item["keyword"]} - [{PATH}/img_{count}]')
                             f.write(rawdata)
                             count += 1
                     except Exception as e:
                         print('Failed to write rawdata.')
                         print(e)
+            print(f'Download completed. [Successful count = {count}].')
+                        
         # time check end
         end_time = time.time()
         total_time = end_time - start_time
-        print(f'Download completed. [Successful count = {count}].')
         print(f'Total time is {str(total_time)} seconds.')
 
     def close(self):
@@ -98,7 +103,7 @@ class Downloader:
     def __scroll_to_bottom(self):
         wating_time = 0.3
         num_of_scroll_down = 8
-        
+
         for _ in range(num_of_scroll_down):
             self.__driver.execute_script('window.scrollTo(0, document.body.scrollHeight);')
             self.__driver.implicitly_wait(10)
@@ -147,15 +152,23 @@ if __name__ == '__main__':
         'window-size': '720x480',
         'disable_gpu': True
     }
-    arguments = {
-        'keywords': ['공대생 변승주 DS 유튜브'],
-        'limit': 300,
-        'download_path': "./download"
+    items = []
+    item = {
+        'keyword': '펭수',
+        'limit': 20,
+        'download_context': "./download",
+        'download_path': "./동물/"
     }
-
+    item_2 ={
+        'keyword': '뽀로로',
+        'limit': 20,
+        'download_context': "./download",
+        'download_path': "./동물/"
+    }
+    items.append(item)
     downloader = build(config)
     try:
-        downloader.download(arguments)
+        downloader.download(items)
     finally:
         downloader.close()
         
