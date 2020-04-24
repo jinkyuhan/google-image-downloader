@@ -157,13 +157,13 @@ if __name__ == '__main__':
         'keyword': '펭수',
         'limit': 20,
         'download_context': "./download",
-        'download_path': "./동물/"
+        'path': "./동물/"
     }
     item_2 ={
         'keyword': '뽀로로',
         'limit': 20,
         'download_context': "./download",
-        'download_path': "./동물/"
+        'path': "./동물/"
     }
     items.append(item)
     downloader = build(config)
