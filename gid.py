@@ -37,6 +37,11 @@ class Downloader:
             URL = f'https://www.google.com/search?q={item["keyword"]}&source=lnms&tbm=isch'
             PATH = f'{item["download_context"]}/{item["path"]}/{item["keyword"]}'
 
+            # Duplicate check : for continuous download
+            if os.path.exists(PATH):
+                print(f'Beacuse keyword [{item["keyword"]}] aleardy exist, It was passed')
+                continue
+
             # Load Page
             print(f'Loading Pages. This may take a few moments...')
             self.__driver.get(URL)
@@ -44,7 +49,6 @@ class Downloader:
             self.__scroll_to_bottom()
             print('Page Scroll done...')
             print('Start to downloading')
-
 
             # download path open
             try:
