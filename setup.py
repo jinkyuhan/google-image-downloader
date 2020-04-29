@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name='gids',
-    version='1.2',
+    version='1.2.2',
     license='',
     author_email="gkswlsrb95@gmail.com",
     description="Google-images-downloader module using selenium",
@@ -17,8 +17,9 @@ setuptools.setup(
         'urllib3==1.25.9'
     ],
     python_requires = '>=3',
-    long_description=open('README.md').read(), 
-    url="https://github.com/jinkyuhan/google-images-download",
+    long_description=open('README.md').read(),
+    long_description_content_type="text/markdown",
+    url="https://github.com/jinkyuhan/gids",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3"

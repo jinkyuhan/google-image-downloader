@@ -1,5 +1,6 @@
 # Google Images Download using Selenium
 
+> 본 파이썬 모듈은 https://pypi.org/project/google_images_download/ 위 모듈이 구글 크롬의 업데이트로 사용 불가능해진 것에 대한 대안으로 Selenium을 이용한 크롤링 과정을 간편화한 모듈입니다.  
 
 ## Install
 
@@ -9,7 +10,7 @@ pip install gids
 
 ## Usage
 
-```python3
+```python
 from gids import builder
 
 config = {
