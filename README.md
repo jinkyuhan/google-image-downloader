@@ -1,10 +1,16 @@
 # Google Images Download using Selenium
 
 
+## Install
+
+```bash
+pip install gids
+```
+
 ## Usage
 
 ```python3
-import gids
+from gids import builder
 
 config = {
     'driver_path': './chromedriver',
@@ -13,15 +19,23 @@ config = {
     'disable_gpu': False
 }
 
-item = {
-    'keyword': '햇반',
-    'limit': 10,
+first_item = {
+    'keyword': 'Lion',
+    'limit': 10, # The number of images
     'download_context': './data',
-    'path': './'
+    'path': 'animal' # save in ./data/animal/img_01...10
 }
 
-items = [item]
+second_item = {
+    'keyword': 'Bamboo',
+    'limit': 10, # The number of images
+    'download_context': './data',
+    'path': 'plant' # save in ./data/plant/img_01...10
+}
 
-downloader = build(config)
+items = [first_item, second_item]
+
+downloader = builder.build(config)
 
 downloader.download(items)
+```
